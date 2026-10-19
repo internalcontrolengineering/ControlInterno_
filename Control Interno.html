@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <title>Control Interno | Portal Ejecutivo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    /* =========================
+       BASE + PREMIUM (elegante)
+       ========================= */
+    :root {
+      --bg-dark: #0b0d10;
+      --bg-mid: #10141a;
+      --bg-hi: #161c24;
+      --panel: rgba(255,255,255,0.05);
+      --glass: rgba(255,255,255,0.08);
+      --text-main: #f5f5f5;
+      --text-soft: rgba(255,255,255,0.62);
+      --gold: #c6a85b;
+      --gold-hi: #e8cf85;
+      --gold-soft: rgba(198,168,91,0.55);
+      --icon-color: rgba(255,255,255,0.84);
+      --border: rgba(255,255,255,0.10);
+      --shadow-soft: 0 10px 30px rgba(0,0,0,0.55);
+      --shadow-lift: 0 18px 48px rgba(0,0,0,0.65);
+      --ease: cubic-bezier(.2,.8,.2,1);
+      --element-bg: linear-gradient(180deg, rgba(255,255,255,0.075), rgba(255,255,255,0.03));
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      font-family: "Segoe UI Variable","Segoe UI",system-ui,-apple-system,sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100dvh;
+      letter-spacing: 0.2px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    /* ===== BACKGROUND ===== */
+    #bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      background:
+        radial-gradient(900px circle at 20% 10%, rgba(198,168,91,0.08), transparent 45%),
+        radial-gradient(1100px circle at 80% 70%, rgba(255,255,255,0.06), transparent 55%),
+        linear-gradient(135deg, var(--bg-dark), var(--bg-mid), var(--bg-dark));
+    }
+    #bg::after {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        120deg,
+        transparent 44%,
+        rgba(255,255,255,0.05) 48%,
+        rgba(255,255,255,0.14) 50%,
+        rgba(255,255,255,0.05) 52%,
+        transparent 56%
+      );
+      filter: blur(52px);
+      transform: rotate(8deg);
+      opacity: 0.35;
+      animation: mirrorSweep 55s ease-in-out infinite;
+    }
+    @keyframes mirrorSweep {
+      0% { transform: rotate(8deg) translateX(-90%) translateY(-25%); opacity: 0.30; }
+      50% { transform: rotate(8deg) translateX(70%) translateY(25%); opacity: 0.55; }
+      100% { transform: rotate(8deg) translateX(-90%) translateY(-25%); opacity: 0.30; }
+    }
+    @media (prefers-reduced-motion: reduce){
+      #bg::after { animation: none; }
+    }
+    /* ===== MAIN LAYOUT ===== */
+    #main {
+      position: relative;
+      z-index: 2;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+    /* ===== HEADER ===== */
+    #header {
+      text-align: center;
+      padding: clamp(6px, 1.5vh, 12px) 14px clamp(6px, 1.2vh, 10px);
+      flex-shrink: 0;
+      background: transparent;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      position: relative;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    #header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 10%;
+      width: 80%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(198,168,91,0.22), transparent);
+    }
+    /* Logo */
+    .logo {
+      max-width: min(160px, 25vw);
+      width: 100%;
+      height: auto;
+      margin: 0 auto 0px;
+      filter: grayscale(100%) brightness(1.25);
+      opacity: 1;
+      transition: transform .28s var(--ease), filter .28s var(--ease);
+    }
+    .logo:hover {
+      filter: grayscale(70%) brightness(1.35);
+      transform: scale(1.03);
+    }
+    /* Título principal */
+    .header-depto{
+      font-size: clamp(1.05rem, 4.2vw, 2.05rem);
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      margin-bottom: clamp(4px, 1vh, 8px);
+      font-weight: 750;
+      color: rgba(210,210,210,0.90);
+      -webkit-text-stroke: 0.8px rgba(198,168,91,0.55);
+      text-shadow:
+        0 1px 10px rgba(0,0,0,0.45),
+        1px 0 0 rgba(198,168,91,0.18),
+       -1px 0 0 rgba(198,168,91,0.18),
+        0 1px 0 rgba(198,168,91,0.18),
+        0 -1px 0 rgba(198,168,91,0.18);
+    }
+    /* Subtítulo */
+    .header-subtitle {
+      font-size: clamp(0.92rem, 3.1vw, 1.35rem);
+      font-weight: 500;
+      line-height: 1.25;
+      color: rgba(212,212,212,0.92);
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 12px;
+    }
+    /* ===== Quick actions ===== */
+    .quick-actions{
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 8px;
+      z-index: 3;
+    }
+    .qa-btn{
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(10,12,14,0.55);
+      color: rgba(255,255,255,0.78);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 22px rgba(0,0,0,0.45);
+      transition: transform .22s var(--ease), border-color .22s var(--ease), background .22s var(--ease);
+    }
+    .qa-btn:hover{
+      transform: translateY(-2px);
+      border-color: rgba(198,168,91,0.35);
+      background: rgba(14,16,18,0.68);
+    }
+    /* ===== Indicador de sección ===== */
+    .section-pill{
+      margin: clamp(5px, 1vh, 8px) auto 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      color: rgba(255,255,255,0.72);
+      font-size: 0.70rem;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      backdrop-filter: blur(10px);
+    }
+    .section-pill .dot{
+      width: 5px;
+      height: 5px;
+      border-radius: 99px;
+      background: var(--gold);
+      box-shadow: 0 0 0 3px rgba(198,168,91,0.12);
+    }
+    /* ===== MARQUESINA DISCRETA BAJO EL SUBTÍTULO ===== */
+    .marquee-bar{
+      position: relative;
+      width: min(680px, 92%);
+      height: 30px;
+      margin: clamp(6px, 1.2vh, 10px) auto 0;
+      background: linear-gradient(180deg, rgba(198,168,91,0.08), rgba(198,168,91,0.02));
+      border: 1px solid rgba(198,168,91,0.28);
+      border-radius: 999px;
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+      transition: border-color .3s var(--ease), background .3s var(--ease), box-shadow .3s var(--ease);
+    }
+    .marquee-bar:hover{
+      border-color: rgba(198,168,91,0.55);
+      background: linear-gradient(180deg, rgba(198,168,91,0.14), rgba(198,168,91,0.04));
+      box-shadow:
+        0 0 0 2px rgba(198,168,91,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+    .marquee-bar::after{
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg,
+        rgba(11,13,16,0.9) 0%,
+        rgba(11,13,16,0) 10%,
+        rgba(11,13,16,0) 90%,
+        rgba(11,13,16,0.9) 100%);
+      pointer-events: none;
+      z-index: 2;
+    }
+    .marquee-track{
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      animation: marqueeScroll 34s linear infinite;
+      will-change: transform;
+      position: relative;
+      z-index: 1;
+    }
+    .marquee-bar:hover .marquee-track{
+      animation-play-state: paused;
+    }
+    @keyframes marqueeScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @media (prefers-reduced-motion: reduce){
+      .marquee-track{ animation: none; }
+    }
+    .marquee-item{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 18px;
+      font-size: clamp(0.62rem, 1.3vw, 0.74rem);
+      font-weight: 600;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: rgba(232,207,133,0.85);
+      text-shadow: 0 0 8px rgba(198,168,91,0.35);
+    }
+    .marquee-item .mq-sep{
+      color: rgba(198,168,91,0.55);
+      font-weight: 400;
+      margin: 0 4px;
+    }
+    .marquee-item .mq-cta{
+      font-weight: 700;
+      letter-spacing: 1.6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(198,168,91,0.22);
+      border: 1px solid rgba(198,168,91,0.4);
+      color: rgba(232,207,133,0.95);
+      text-shadow: none;
+      margin-left: 6px;
+    }
+    @media (max-width: 600px){
+      .marquee-item{
+        letter-spacing: 1px;
+        padding: 0 14px;
+        gap: 8px;
+      }
+      .marquee-bar{
+        width: 100%;
+      }
+    }
+    /* ===== CONTENT CONTAINER ===== */
+    .icon-container {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      background: transparent;
+    }
+    .section {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(24px);
+      transition: opacity .38s var(--ease), transform .38s var(--ease), visibility .38s var(--ease);
+      pointer-events: none;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 15px 10px 20px;
+    }
+    .section::-webkit-scrollbar { display: none; }
+    .section.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .content-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+    /* ===== HOME BLOCKS - RESPONSIVE CON 5 BLOQUES EN UNA FILA ===== */
+    .home-blocks {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(22px, 3vw, 40px);
+      padding: 18px 15px;
+      max-width: 1600px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .main-block {
+      flex: 0 1 auto;
+      width: clamp(200px, 18vw, 280px);
+      min-width: 180px;
+      height: clamp(170px, 28vh, 280px);
+      border-radius: 28px;
+      background: var(--element-bg);
+      backdrop-filter: blur(18px);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+      transition:
+        transform .28s var(--ease),
+        box-shadow .28s var(--ease),
+        border-color .28s var(--ease),
+        background .28s var(--ease);
+      padding: 15px;
+    }
+    .main-block:hover {
+      transform: translateY(-6px);
+      border-color: rgba(198,168,91,0.45);
+      box-shadow: var(--shadow-lift);
+    }
+    .main-block i {
+      font-size: clamp(2rem, 5vw, 4rem);
+      margin-bottom: clamp(8px, 2vh, 20px);
+      color: var(--icon-color);
+    }
+    .main-block h2 {
+      font-size: clamp(0.8rem, 2vw, 1.3rem);
+      letter-spacing: 1.2px;
+      color: rgba(255,255,255,0.82);
+      font-weight: 520;
+      text-align: center;
+      padding: 0 6px;
+      word-break: break-word;
+    }
+    .main-block span {
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.8px;
+      color: rgba(255,255,255,0.55);
+      display: block;
+      margin-top: 5px;
+    }
+    /* Breakpoints para home blocks - siempre centrados */
+    @media (min-width: 1300px) {
+      .main-block { width: 260px; }
+    }
+    @media (min-width: 1100px) and (max-width: 1299px) {
+      .main-block { width: 230px; }
+    }
+    @media (min-width: 900px) and (max-width: 1099px) {
+      .main-block { width: 210px; }
+      .home-blocks { gap: 20px; }
+    }
+    @media (min-width: 700px) and (max-width: 899px) {
+      .main-block { width: 220px; }
+    }
+    @media (min-width: 480px) and (max-width: 699px) {
+      .main-block { width: calc(50% - 30px); min-width: 180px; max-width: 250px; }
+      .home-blocks { gap: 20px; }
+    }
+    @media (max-width: 479px) {
+      .main-block { width: calc(100% - 40px); max-width: 320px; min-width: 240px; }
+      .home-blocks { gap: 18px; padding: 12px; }
+    }
+    /* ===== RECENTS STRIP ===== */
+    .home-strip{
+      width: min(1100px, 100%);
+      padding: 0 15px 10px;
+      margin-top: 32px;
+    }
+    .strip-title{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      margin: 8px auto 14px;
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.62);
+    }
+    .recent-list{
+      display:flex;
+      gap: 12px;
+      justify-content:center;
+      flex-wrap: wrap;
+    }
+    .recent-chip{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.10);
+      cursor: pointer;
+      transition: transform .22s var(--ease), border-color .22s var(--ease), background .22s var(--ease);
+      color: rgba(255,255,255,0.80);
+    }
+    .recent-chip:hover{
+      transform: translateY(-2px);
+      border-color: rgba(198,168,91,0.28);
+      background: rgba(255,255,255,0.06);
+    }
+    /* ===== GRID RESPONSIVE CENTRADO ===== */
+    .grid {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(18px, 4.2vw, 40px);
+      padding: 20px 15px;
+      max-width: 1600px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .icon-app {
+      flex: 0 1 auto;
+      width: clamp(100px, 18vw, 150px);
+      height: clamp(100px, 18vw, 150px);
+      min-width: 85px;
+      border-radius: 50%;
+      background: var(--element-bg);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      text-decoration: none;
+      padding: 12px;
+      cursor: pointer;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+      transition:
+        transform .28s var(--ease),
+        box-shadow .28s var(--ease),
+        border-color .28s var(--ease),
+        background .28s var(--ease);
+    }
+    .icon-app:hover {
+      transform: translateY(-5px);
+      border-color: rgba(198,168,91,0.45);
+      box-shadow: var(--shadow-lift);
+    }
+    .icon-app i {
+      font-size: clamp(1.6rem, 4.5vw, 3.5rem);
+      margin-bottom: 6px;
+      color: rgba(255,255,255,0.82);
+    }
+    .icon-app span {
+      font-size: clamp(0.6rem, 1.8vw, 0.9rem);
+      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.78);
+      font-weight: 420;
+      line-height: 1.2;
+      max-width: 90%;
+      word-break: break-word;
+    }
+    @media (min-width: 1200px) {
+      .grid { gap: 30px; }
+      .icon-app { width: 150px; height: 150px; }
+    }
+    @media (min-width: 800px) and (max-width: 1199px) {
+      .grid { gap: 25px; }
+      .icon-app { width: 135px; height: 135px; }
+    }
+    @media (min-width: 500px) and (max-width: 799px) {
+      .grid { gap: 20px; }
+      .icon-app { width: 115px; height: 115px; }
+    }
+    @media (max-width: 499px) {
+      .grid { gap: 18px; }
+      .icon-app { width: 95px; height: 95px; }
+      .icon-app i { font-size: 1.6rem; }
+      .icon-app span { font-size: 0.55rem; }
+    }
+    @media (max-width: 380px) {
+      .grid { flex-direction: column; align-items: center; }
+      .icon-app { width: 130px; height: 130px; }
+    }
+    /* ===== BACK BUTTON ===== */
+    .back-btn-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 15px 10px 25px;
+      margin-top: auto;
+    }
+    .back-btn {
+      background: rgba(10,12,14,0.70);
+      border: 1px solid rgba(198,168,91,0.35);
+      color: rgba(255,255,255,0.82);
+      padding: clamp(10px, 2vh, 12px) clamp(30px, 8vw, 40px);
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: clamp(0.9rem, 3vw, 1rem);
+      backdrop-filter: blur(10px);
+      transition: transform .22s var(--ease), border-color .22s var(--ease), background .22s var(--ease);
+      box-shadow: 0 8px 22px rgba(0,0,0,0.45);
+      min-width: clamp(140px, 35vw, 160px);
+      text-align: center;
+    }
+    .back-btn:hover {
+      background: rgba(198,168,91,0.95);
+      color: #0b0d10;
+      border-color: rgba(198,168,91,0.95);
+      transform: translateY(-2px);
+    }
+    /* ===== FOOTER ===== */
+    #footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(7px, 1.2vh, 11px) 14px;
+      font-size: 0.70rem;
+      line-height: 1.18;
+      background: rgba(8,10,12,0.55);
+      border-top: 1px solid rgba(255,255,255,0.03);
+      backdrop-filter: blur(6px);
+      flex-shrink: 0;
+      width: 100%;
+      min-height: clamp(52px, 7.8vh, 68px);
+    }
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      max-width: 1200px;
+    }
+    .footer-names {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+    .name-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .footer-name {
+      color: var(--gold);
+      font-weight: 520;
+      font-size: clamp(0.74rem, 2.1vw, 0.88rem);
+      margin-bottom: 2px;
+      white-space: nowrap;
+      opacity: 0.95;
+    }
+    .footer-title {
+      font-size: clamp(0.50rem, 1.5vw, 0.60rem);
+      opacity: 0.75;
+      letter-spacing: 0.6px;
+      color: rgba(255,255,255,0.78);
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+    .names-divider {
+      width: 1px;
+      height: clamp(30px, 5.6vh, 44px);
+      background: rgba(255,255,255,0.12);
+    }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      width: 100%;
+    }
+    .footer-logo {
+      height: 20px;
+      width: auto;
+      object-fit: contain;
+      opacity: 0.6;
+    }
+    .footer-textos {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.3;
+    }
+    .footer-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #c6a85b;
+      letter-spacing: 1px;
+    }
+    .footer-sub {
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.7);
+    }
+    @media (max-width: 600px) {
+      .footer-names {
+        flex-direction: column;
+        gap: 15px;
+      }
+      .names-divider { display: none; }
+      .footer-name, .footer-title { white-space: normal; word-break: keep-all; }
+    }
+    /* ===== COMMAND PALETTE ===== */
+    .cmd {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .cmd:not(.hidden) { pointer-events: auto; }
+    .cmd-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+    }
+    .cmd-panel {
+      position: relative;
+      top: 15vh;
+      width: min(560px, 90%);
+      background: #12161c;
+      border-radius: 32px;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+    }
+    .cmd-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(18,22,28,0.9);
+    }
+    .cmd-header i { color: var(--gold); font-size: 1.2rem; }
+    .cmd-header input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      font-size: 1rem;
+      color: white;
+      outline: none;
+    }
+    .cmd-header kbd {
+      background: rgba(255,255,255,0.1);
+      padding: 4px 8px;
+      border-radius: 8px;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.6);
+    }
+    .cmd-results {
+      list-style: none;
+      max-height: 380px;
+      overflow-y: auto;
+      padding: 8px;
+    }
+    .cmd-results li {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .cmd-results li:hover { background: rgba(255,255,255,0.08); }
+    .cmd-ico { width: 36px; text-align: center; font-size: 1.3rem; color: var(--gold); }
+    .cmd-meta { flex: 1; }
+    .cmd-title { font-weight: 500; font-size: 0.95rem; }
+    .cmd-sub { font-size: 0.7rem; color: rgba(255,255,255,0.55); }
+    .hidden { display: none; }
+    @media (max-width: 600px) {
+      .cmd-panel { top: 10vh; width: 95%; }
+      .cmd-header { padding: 10px 16px; }
+      .cmd-header input { font-size: 0.9rem; }
+      .cmd-results li { padding: 10px 12px; }
+      .cmd-title { font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+<div id="bg"></div>
+<div id="main">
+  <header id="header">
+    <img src="https://raw.githubusercontent.com/internalcontrolengineering/Desarrollos/main/LogoCI-BC.png"
+         class="logo" alt="Logo Control Interno" />
+    <div class="header-depto">Departamento de Control Interno</div>
+    <div class="header-subtitle">Administración Integral de Riesgos y Controles</div>
+    <!-- MARQUESINA debajo del subtítulo -->
+    <div class="marquee-bar" onclick="window.location.href='https://internalcontrolengineering.github.io/CI/'" role="button" tabindex="0" aria-label="Conoce sobre el Departamento de Control Interno">
+      <div class="marquee-track">
+        <span class="marquee-item">
+          Conoce sobre el Departamento de Control Interno
+          <span class="mq-sep">|</span>
+          Propósito
+          <span class="mq-sep">|</span>
+          Beneficios
+          <span class="mq-sep">|</span>
+          FAQ
+          <span class="mq-sep">|</span>
+          <span class="mq-cta">Clic aquí</span>
+        </span>
+        <span class="marquee-item">
+          Conoce sobre el Departamento de Control Interno
+          <span class="mq-sep">|</span>
+          Propósito
+          <span class="mq-sep">|</span>
+          Beneficios
+          <span class="mq-sep">|</span>
+          FAQ
+          <span class="mq-sep">|</span>
+          <span class="mq-cta">Clic aquí</span>
+        </span>
+      </div>
+    </div>
+    <div class="quick-actions">
+      <button type="button" class="qa-btn" id="searchBtn" aria-label="Búsqueda rápida (Ctrl+K)">
+        <i class="fas fa-magnifying-glass"></i>
+      </button>
+      <button type="button" class="qa-btn" id="configBtn" aria-label="Configuración">
+        <i class="fas fa-cog"></i>
+      </button>
+      <button type="button" class="qa-btn" id="fsBtn" aria-label="Pantalla completa">
+        <i class="fas fa-expand"></i>
+      </button>
+    </div>
+    <div id="sectionPill" class="section-pill">
+      <span class="dot"></span>
+      <span class="label">Portal Ejecutivo</span>
+    </div>
+  </header>
+  <div class="icon-container">
+    <!-- HOME -->
+    <div id="home" class="section active">
+      <div class="content-wrapper">
+        <div class="home-blocks">
+          <div onclick="openSection('normatividad')" class="main-block" role="button" tabindex="0">
+            <i class="fas fa-book-open"></i>
+            <h2>NORMATIVIDAD INTERNA<br><span>Marco legal y regulatorio</span></h2>
+          </div>
+          <div onclick="openSection('riesgos')" class="main-block" role="button" tabindex="0">
+            <i class="fas fa-tachometer"></i>
+            <h2>GESTIÓN DE RIESGOS Y CONTROLES<br><span>Identificación y mitigación</span></h2>
+          </div>
+          <div onclick="openSection('administracion')" class="main-block" role="button" tabindex="0">
+            <i class="fas fa-clipboard-list"></i>
+            <h2>ADMINISTRACIÓN Y SEGUIMIENTO<br><span>Monitoreo y cumplimiento</span></h2>
+          </div>
+          <div onclick="openSection('ingenieria')" class="main-block" role="button" tabindex="0">
+            <i class="fas fa-microchip"></i>
+            <h2>INGENIERÍA DE CONTROL<br><span>Prevención & Trazabilidad</span></h2>
+          </div>
+          <div onclick="openSection('cultura')" class="main-block" role="button" tabindex="0">
+            <i class="fas fa-users"></i>
+            <h2>CULTURA Y LINEAMIENTOS<br><span>Gestión del comportamiento</span></h2>
+          </div>
+        </div>
+        <div class="home-strip">
+          <div class="strip-title"><i class="fas fa-clock"></i> Accesos recientes</div>
+          <div id="recentList" class="recent-list"></div>
+        </div>
+      </div>
+    </div>
+    <!-- NORMATIVIDAD -->
+    <div id="normatividad" class="section">
+      <div class="content-wrapper">
+        <ul class="grid">
+          <li><div onclick="openApp('matrizDocumental')" class="icon-app" role="button" tabindex="0"><i class="fas fa-table"></i><span>MATRIZ DOCUMENTAL</span></div></li>
+          <li><div onclick="openApp('normativa360')" class="icon-app" role="button" tabindex="0"><i class="fas fa-file-signature"></i><span>NORMATIVA 360°</span></div></li>
+          <li><div onclick="openApp('visum')" class="icon-app" role="button" tabindex="0"><i class="fas fa-ranking-star"></i><span>VISUM</span></div></li>
+          <li><div onclick="openApp('glossarium')" class="icon-app" role="button" tabindex="0"><i class="fas fa-spell-check"></i><span>GLOSSARIUM</span></div></li>
+        </ul>
+      </div>
+      <div class="back-btn-wrapper">
+        <button class="back-btn" onclick="goHome()">← Volver</button>
+      </div>
+    </div>
+    <!-- RIESGOS -->
+    <div id="riesgos" class="section">
+      <div class="content-wrapper">
+        <ul class="grid">
+          <li><div onclick="openApp('marc')" class="icon-app" role="button" tabindex="0"><i class="fas fa-gauge-high"></i><span>MARC</span></div></li>
+          <li><div onclick="openApp('bia')" class="icon-app" role="button" tabindex="0"><i class="fas fa-magnifying-glass-chart"></i><span>BIA</span></div></li>
+        </ul>
+      </div>
+      <div class="back-btn-wrapper">
+        <button class="back-btn" onclick="goHome()">← Volver</button>
+      </div>
+    </div>
+    <!-- ADMINISTRACIÓN -->
+    <div id="administracion" class="section">
+      <div class="content-wrapper">
+        <ul class="grid">
+          <li><div onclick="openApp('novarum')" class="icon-app" role="button" tabindex="0"><i class="fas fa-diagram-project"></i><span>NOVARUM</span></div></li>
+          <li><div onclick="openApp('tempus')" class="icon-app" role="button" tabindex="0"><i class="fas fa-calendar-check"></i><span>TEMPUS</span></div></li>
+          <li><div onclick="openApp('stride')" class="icon-app" role="button" tabindex="0"><i class="fas fa-layer-group"></i><span>STRIDE</span></div></li>
+          <li><div onclick="openApp('hexus')" class="icon-app" role="button" tabindex="0"><i class="fas fa-business-time"></i><span>HEXUS</span></div></li>
+          <li><div onclick="openApp('scriptum')" class="icon-app" role="button" tabindex="0"><i class="fas fa-tasks"></i><span>SCRIPTUM</span></div></li>
+          <li><div onclick="openApp('conventio')" class="icon-app" role="button" tabindex="0"><i class="fas fa-file-lines"></i><span>CONVENTIO</span></div></li>
+          <li><div onclick="openApp('genius')" class="icon-app" role="button" tabindex="0"><i class="fas fa-lightbulb"></i><span>GENIUS</span></div></li>
+          <li><div onclick="openApp('omnes')" class="icon-app" role="button" tabindex="0"><i class="fas fa-envelope-open"></i><span>OMNES</span></div></li>
+          <li><div onclick="openApp('census')" class="icon-app" role="button" tabindex="0"><i class="fas fa-people-group"></i><span>CENSUS</span></div></li>
+          <li><div onclick="openApp('hermes')" class="icon-app" role="button" tabindex="0"><i class="fas fa-share-nodes"></i><span>HERMES</span></div></li>
+        </ul>
+      </div>
+      <div class="back-btn-wrapper">
+        <button class="back-btn" onclick="goHome()">← Volver</button>
+      </div>
+    </div>
+    <!-- INGENIERÍA DE CONTROL -->
+    <div id="ingenieria" class="section">
+      <div class="content-wrapper">
+        <ul class="grid">
+          <li><div onclick="openApp('csw_donatarias')" class="icon-app" role="button" tabindex="0"><i class="fas fa-hand-holding-heart"></i><span>CSW DONATARIAS</span></div></li>
+          <li><div onclick="openApp('ido')" class="icon-app" role="button" tabindex="0"><i class="fas fa-id-card"></i><span>iDO CSW</span></div></li>
+          <li><div onclick="openApp('APPD')" class="icon-app" role="button" tabindex="0"><i class="fas fa-file-invoice-dollar"></i><span>APPD</span></div></li>
+          <li><div onclick="openApp('PosTÚlate')" class="icon-app" role="button" tabindex="0"><i class="fas fa-user-plus"></i><span>PosTÚlate</span></div></li>
+          <li><div onclick="openApp('controlGastos')" class="icon-app" role="button" tabindex="0"><i class="fas fa-coins"></i><span>CONTROL DE GASTOS</span></div></li>
+          <li><div onclick="openApp('semaforoDonataria')" class="icon-app" role="button" tabindex="0"><i class="fas fa-traffic-light"></i><span>SEMÁFORO DONATARIA</span></div></li>
+        </ul>
+      </div>
+      <div class="back-btn-wrapper">
+        <button class="back-btn" onclick="goHome()">← Volver</button>
+      </div>
+    </div>
+    <!-- CULTURA Y LINEAMIENTOS -->
+    <div id="cultura" class="section">
+      <div class="content-wrapper">
+        <ul class="grid">
+          <li><div onclick="openApp('sdci')" class="icon-app" role="button" tabindex="0"><i class="fas fa-person-chalkboard"></i><span>SDCI</span></div></li>
+        </ul>
+      </div>
+      <div class="back-btn-wrapper">
+        <button class="back-btn" onclick="goHome()">← Volver</button>
+      </div>
+    </div>
+    <!-- CONFIGURACIÓN -->
+    <div id="configuracion" class="section">
+      <div class="content-wrapper">
+        <ul class="grid">
+          <li><div onclick="openApp('pagapp')" class="icon-app" role="button" tabindex="0"><i class="fas fa-money-bill-transfer"></i><span>PagApp</span></div></li>
+          <li><div onclick="openApp('natalis')" class="icon-app" role="button" tabindex="0"><i class="fas fa-birthday-cake"></i><span>NATALIS</span></div></li>
+          <li><div onclick="openApp('cleaner')" class="icon-app" role="button" tabindex="0"><i class="fas fa-trash-can"></i><span>CLEANER</span></div></li>
+          <li><div onclick="openApp('borrador-sdci')" class="icon-app" role="button" tabindex="0"><i class="fas fa-eraser"></i><span>BORRADOR SDCI</span></div></li>
+          <li><div onclick="openApp('catalogo-front')" class="icon-app" role="button" tabindex="0"><i class="fas fa-cubes"></i><span>CATÁLOGO FRONT</span></div></li>
+        </ul>
+      </div>
+      <div class="back-btn-wrapper">
+        <button class="back-btn" onclick="goHome()">← Volver</button>
+      </div>
+    </div>
+  </div>
+  <footer id="footer">
+    <div class="footer-content">
+      <div class="footer-names">
+        <div class="name-item">
+          <span class="footer-name">Juan Pablo Ojeda González</span>
+          <span class="footer-title">Jefe de Control Interno</span>
+        </div>
+        <div class="names-divider"></div>
+        <div class="name-item">
+          <span class="footer-name">Seidy Nayeli Dzul Puc</span>
+          <span class="footer-title">Coord. de Normas y Procedimientos</span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <img src="https://raw.githubusercontent.com/internalcontrolengineering/Desarrollos/main/LogoCI-G.png" 
+             alt="Control Interno" 
+             class="footer-logo">
+        <div class="footer-textos">
+          <span class="footer-label">Control Interno</span>
+          <span class="footer-sub">Ingeniería de Control</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+<!-- Command Palette -->
+<div id="cmdPalette" class="cmd hidden" aria-hidden="true">
+  <div class="cmd-backdrop"></div>
+  <div class="cmd-panel" role="dialog" aria-modal="true" aria-label="Búsqueda rápida">
+    <div class="cmd-header">
+      <i class="fas fa-magnifying-glass"></i>
+      <input id="cmdInput" type="text" placeholder="Buscar módulos… (ej. MARC, Tempus, Control de Gastos)" autocomplete="off" />
+      <kbd>Esc</kbd>
+    </div>
+    <ul id="cmdResults" class="cmd-results"></ul>
+  </div>
+</div>
+<script>
+  // ===================== CONFIGURACIÓN =====================
+  const SECTION_LABELS = {
+    home: 'Portal Ejecutivo',
+    normatividad: 'Normatividad Interna',
+    riesgos: 'Gestión de Riesgos y Controles',
+    administracion: 'Administración y Seguimiento',
+    ingenieria: 'Ingeniería de Control | Prevención & Trazabilidad',
+    cultura: 'Cultura y Lineamientos',
+    configuracion: 'Configuración'
+  };
+  const APPS = {
+    matrizDocumental: { id: 'matrizDocumental', label: 'MATRIZ DOCUMENTAL', section: 'normatividad', icon: 'fa-table', url: "https://internalcontrolengineering.github.io/MatrizDocumental/" },
+    normativa360: { id: 'normativa360', label: 'NORMATIVA 360°', section: 'normatividad', icon: 'fa-file-signature', url: "https://internalcontrolengineering.github.io/CSWNormativa360/" },
+    visum:        { id: 'visum',        label: 'VISUM',        section: 'normatividad', icon: 'fas fa-ranking-star', url: "https://internalcontrolengineering.github.io/VisumCSW/" },
+    glossarium:   { id: 'glossarium',   label: 'GLOSSARIUM',   section: 'normatividad', icon: 'fa-spell-check',     url: "https://internalcontrolengineering.github.io/GlossariumCSW/" },
+    sdci:         { id: 'sdci',         label: 'SDCI',         section: 'cultura',      icon: 'fa-person-chalkboard', url: "https://internalcontrolengineering.github.io/SDCI_CSW/" },
+    marc:         { id: 'marc',         label: 'MARC',         section: 'riesgos',      icon: 'fa-gauge-high',      url: "https://internalcontrolengineering.github.io/MARC.CSW/" },
+    bia:          { id: 'bia',          label: 'BIA',          section: 'riesgos',      icon: 'fas fa-magnifying-glass-chart', url: "https://internalcontrolengineering.github.io/BIA/" },
+    novarum:      { id: 'novarum',      label: 'NOVARUM',      section: 'administracion', icon: 'fa-diagram-project', url: "https://internalcontrolengineering.github.io/NovarumCSW/" },
+    tempus:       { id: 'tempus',       label: 'TEMPUS',       section: 'administracion', icon: 'fa-calendar-check',  url: "https://internalcontrolengineering.github.io/TempusCSW/" },
+    stride:       { id: 'stride',       label: 'STRIDE',       section: 'administracion', icon: 'fas fa-layer-group',  url: "https://internalcontrolengineering.github.io/Stride/" },
+    hexus:        { id: 'hexus',        label: 'HEXUS',        section: 'administracion', icon: 'fa-business-time',  url: "https://internalcontrolengineering.github.io/HexusCSW/" },
+    scriptum:     { id: 'scriptum',     label: 'SCRIPTUM',     section: 'administracion', icon: 'fa-tasks',           url: "https://internalcontrolengineering.github.io/ScriptumCSW/" },
+    conventio:    { id: 'conventio',    label: 'CONVENTIO',    section: 'administracion', icon: 'fa-file-lines',      url: "https://internalcontrolengineering.github.io/ConventioCSW/" },
+    genius:       { id: 'genius',       label: 'GENIUS',       section: 'administracion', icon: 'fa-lightbulb',       url: "https://internalcontrolengineering.github.io/GeniusCSW/" },
+    omnes:        { id: 'omnes',        label: 'OMNES',        section: 'administracion', icon: 'fa-envelope-open',   url: "https://internalcontrolengineering.github.io/OmnesCSW/" },
+    census:       { id: 'census',       label: 'CENSUS',       section: 'administracion', icon: 'fa-people-group',    url: "https://internalcontrolengineering.github.io/Census/" },
+    hermes:       { id: 'hermes',       label: 'HERMES',       section: 'administracion', icon: 'fa-share-nodes',     url: "https://internalcontrolengineering.github.io/Hermes_/" },
+    pagapp:       { id: 'pagapp',       label: 'PagApp',       section: 'configuracion',  icon: 'fa-money-bill-transfer', url: "https://internalcontrolengineering.github.io/PagApp/" },
+    natalis:      { id: 'natalis',      label: 'NATALIS',      section: 'configuracion',  icon: 'fa-birthday-cake',   url: "https://internalcontrolengineering.github.io/NatalisCSW/" },
+    cleaner:      { id: 'cleaner',      label: 'CLEANER',      section: 'configuracion',  icon: 'fa-trash-can',       url: "https://internalcontrolengineering.github.io/CleanerCSW/" },
+    "borrador-sdci": { id: "borrador-sdci", label: "BORRADOR SDCI", section: 'configuracion', icon: "fa-eraser", url: "https://internalcontrolengineering.github.io/borradorSDCI_CSW/" },
+    "catalogo-front": { id: "catalogo-front", label: "CATÁLOGO FRONT", section: 'configuracion', icon: "fa-cubes", url: "https://internalcontrolengineering.github.io/Catalogo-de-Estilos/" },
+    csw_donatarias: { id: 'csw_donatarias', label: 'CSW DONATARIAS', section: 'ingenieria', icon: 'fa-hand-holding-heart', url: "https://internalcontrolengineering.github.io/DonatariasCSW/" },
+    ido:            { id: 'ido',        label: 'iDO CSW',      section: 'ingenieria', icon: 'fas fa-id-card', url: "https://internalcontrolengineering.github.io/iDO/" },
+    APPD:           { id: 'APPD',       label: 'APPD',         section: 'ingenieria', icon: 'fas fa-file-invoice-dollar', url: "https://internalcontrolengineering.github.io/APPerformanceDashboard/" },
+    PosTÚlate:      { id: 'PosTÚlate',  label: 'PosTÚlate',    section: 'ingenieria', icon: 'fas fa-user-plus', url: "https://internalcontrolengineering.github.io/PosTUlate-CSW/" },
+    controlGastos:  { id: 'controlGastos', label: 'CONTROL DE GASTOS', section: 'ingenieria', icon: 'fa-coins', url: "https://internalcontrolengineering.github.io/Control-de-Gastos/" },
+    semaforoDonataria: { id: 'semaforoDonataria', label: 'SEMÁFORO DONATARIA', section: 'ingenieria', icon: 'fa-traffic-light', url: "https://internalcontrolengineering.github.io/Semaforo-Donaciones/" }
+  };
+  const RECENT_KEY = 'recentApps';
+  const RECENT_LIMIT = 2;
+  function updateSectionPill(id){
+    const pill = document.getElementById('sectionPill');
+    if(!pill) return;
+    const label = SECTION_LABELS[id] || 'Portal Ejecutivo';
+    pill.querySelector('.label').textContent = label;
+  }
+  function pushRecent(appId){
+    let ids = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
+    ids = ids.filter(id => id !== appId);
+    ids.unshift(appId);
+    ids = ids.slice(0, RECENT_LIMIT);
+    localStorage.setItem(RECENT_KEY, JSON.stringify(ids));
+  }
+  function renderRecents(){
+    const container = document.getElementById('recentList');
+    if(!container) return;
+    container.innerHTML = '';
+    let ids = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
+    const apps = ids.slice(0, RECENT_LIMIT).map(id => APPS[id]).filter(Boolean);
+    if(apps.length === 0){
+      container.innerHTML = '<div style="opacity:0.6; font-size:0.9rem;">Sin actividad reciente</div>';
+      return;
+    }
+    apps.forEach(app => {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'recent-chip';
+      chip.innerHTML = `<i class="fas ${app.icon}"></i><span>${app.label}</span>`;
+      chip.addEventListener('click', () => openApp(app.id));
+      container.appendChild(chip);
+    });
+  }
+  function openSection(id, save = true) {
+    document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+    const target = document.getElementById(id);
+    if(target){
+      target.classList.add('active');
+      target.scrollTop = 0;
+    }
+    if (save) localStorage.setItem('lastSection', id);
+    updateSectionPill(id);
+    if(id === 'home') renderRecents();
+    closeCmd();
+  }
+  function goHome() { openSection('home'); }
+  function openApp(appId){
+    const app = APPS[appId];
+    if(!app) return;
+    localStorage.setItem('lastSection', app.section);
+    pushRecent(appId);
+    window.location.href = app.url;
+  }
+  function openConfig() { openSection('configuracion'); }
+  function openCmd(){
+    const root = document.getElementById('cmdPalette');
+    root.classList.remove('hidden');
+    const input = document.getElementById('cmdInput');
+    input.value = '';
+    renderCmdResults('');
+    setTimeout(() => input.focus(), 10);
+  }
+  function closeCmd(){ document.getElementById('cmdPalette').classList.add('hidden'); }
+  function renderCmdResults(q){
+    const query = (q || '').trim().toLowerCase();
+    const ul = document.getElementById('cmdResults');
+    ul.innerHTML = '';
+    const list = Object.values(APPS)
+      .filter(a => !query || `${a.label} ${a.id} ${SECTION_LABELS[a.section] || ''}`.toLowerCase().includes(query))
+      .sort((a,b) => a.section.localeCompare(b.section) || a.label.localeCompare(b.label));
+    if(list.length === 0){
+      ul.innerHTML = '<li style="opacity:0.65; cursor:default;">Sin resultados</li>';
+      return;
+    }
+    list.forEach(app => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <div class="cmd-ico"><i class="fas ${app.icon}"></i></div>
+        <div class="cmd-meta">
+          <div class="cmd-title">${app.label}</div>
+          <div class="cmd-sub">${SECTION_LABELS[app.section] || app.section}</div>
+        </div>
+      `;
+      li.addEventListener('click', () => openApp(app.id));
+      ul.appendChild(li);
+    });
+  }
+  async function toggleFullscreen(){
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+    } catch(e) {}
+  }
+  (function restoreLastSection() {
+    const last = localStorage.getItem('lastSection') || 'home';
+    setTimeout(() => openSection(last, false), 10);
+  })();
+  document.getElementById('searchBtn')?.addEventListener('click', openCmd);
+  document.getElementById('configBtn')?.addEventListener('click', openConfig);
+  document.getElementById('fsBtn')?.addEventListener('click', toggleFullscreen);
+  document.getElementById('cmdInput')?.addEventListener('input', e => renderCmdResults(e.target.value));
+  document.getElementById('cmdPalette')?.addEventListener('click', e => {
+    if(e.target.classList.contains('cmd-backdrop')) closeCmd();
+  });
+  document.addEventListener('keydown', e => {
+    const k = e.key.toLowerCase();
+    if ((e.ctrlKey || e.metaKey) && k === 'k') {
+      e.preventDefault();
+      openCmd();
+    }
+    if (k === 'escape') closeCmd();
+    if (k === 'enter') {
+      const root = document.getElementById('cmdPalette');
+      if (!root.classList.contains('hidden')) {
+        const first = document.querySelector('#cmdResults li');
+        if (first) first.click();
+      }
+    }
+  });
+  updateSectionPill(localStorage.getItem('lastSection') || 'home');
+  renderRecents();
+</script>
+</body>
+</html>
